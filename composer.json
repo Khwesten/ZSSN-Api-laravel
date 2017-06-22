@@ -1,0 +1,11 @@
+{
+    "name": "k-hei/codeminer",
+    "description": "An API which store information about the survivors from a zombie apocalypse",
+    "authors": [
+        {
+            "name": "khwesten",
+            "email": "k-heiner@hotmail.com"
+        }
+    ],
+    "require": {}
+}
