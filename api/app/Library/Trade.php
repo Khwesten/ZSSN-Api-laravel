@@ -134,7 +134,7 @@ class Trade
         }
     }
 
-    private function hasAllItemsOnSurvivor(Survivor $survivor, array $listOfItemsToTrade)
+    private function hasAllItemsOnSurvivor(Survivor $survivor, array $listOfItemsToTrade): bool
     {
         $arrayToTrade = $this->makeArrayToCompare($listOfItemsToTrade);
         $arrayUserItems = $this->makeArrayFromCollectionToCompare($survivor->survivorItems());

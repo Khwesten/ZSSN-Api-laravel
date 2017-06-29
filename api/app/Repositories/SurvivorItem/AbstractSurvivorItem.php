@@ -13,4 +13,8 @@ use App\Repositories\AbstractRepository;
 abstract class AbstractSurvivorItem extends AbstractRepository
 {
     public abstract function addSurvivorItemsWithUser(array $survivorItems);
+
+    public abstract function countPointsFromInfectedSurvivors(): int;
+
+    public abstract function getAmountOfItemsByKind(): array;
 }

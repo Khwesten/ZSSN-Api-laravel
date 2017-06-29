@@ -14,9 +14,9 @@ abstract class AbstractSurvivor extends AbstractRepository
 {
     public abstract function markAsInfected(int $survivorId);
 
-    public abstract function report();
+    public abstract function addItems(array $survivorItems);
 
-    public abstract function tradeWith();
+    public abstract function countAllSurvivors(): int;
 
-    public abstract function addItens(array $survivorItems);
+    public abstract function countInfectedSurvivors(): int;
 }

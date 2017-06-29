@@ -6,6 +6,7 @@ use App\Location;
 use App\ModelInterface;
 use App\Survivor;
 use Illuminate\Foundation\Auth\User;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Created by IntelliJ IDEA.
@@ -39,16 +40,6 @@ class SurvivorEloquentRepository extends AbstractSurvivor
         return $survivor;
     }
 
-    public function report()
-    {
-        // TODO: Implement report() method.
-    }
-
-    public function tradeWith()
-    {
-        // TODO: Implement tradeWith() method.
-    }
-
     public function markAsInfected(int $survivorId)
     {
         $result = Survivor::findOrFail($survivorId)->update(['is_infected' => true]);
@@ -56,8 +47,18 @@ class SurvivorEloquentRepository extends AbstractSurvivor
         return $result;
     }
 
-    public function addItens(array $survivorItems)
+    public function addItems(array $survivorItems)
     {
         return $this->model->survivorItems()->saveMany($survivorItems);
+    }
+
+    public function countAllSurvivors(): int
+    {
+        return DB::table('survivors')->count();
+    }
+
+    public function countInfectedSurvivors(): int
+    {
+        return DB::table('survivors')->where('is_infected', true)->count();
     }
 }

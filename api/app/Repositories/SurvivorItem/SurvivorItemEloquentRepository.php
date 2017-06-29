@@ -5,6 +5,7 @@ namespace App\Repositories\SurvivorItem;
 use App\Survivor;
 use App\SurvivorItem;
 use App\VoteOfInfection;
+use Illuminate\Support\Facades\DB;
 
 /**
  * Created by IntelliJ IDEA.
@@ -47,5 +48,27 @@ class SurvivorItemEloquentRepository extends AbstractSurvivorItem
     public function addSurvivorItemWithUser()
     {
         return $this->model->save();
+    }
+
+    public function countPointsFromInfectedSurvivors(): int
+    {
+        $result = $users = DB::table('survivor_items')
+            ->join('survivors', 'survivors.id', '=', 'survivor_items.survivor_id')
+            ->select(DB::raw('sum(survivor_items.quantity) as count'))
+            ->where('survivors.is_infected', true)
+            ->first();
+
+        return $result->count;
+    }
+
+    public function getAmountOfItemsByKind(): array
+    {
+        $result = $users = DB::table('survivor_items')
+            ->join('items', 'items.id', '=', 'survivor_items.item_id')
+            ->select(DB::raw('DISTINCT(items.name) as name, SUM(survivor_items.quantity) as quantity'))
+            ->groupBy('items.name')
+            ->get();
+
+        return $result->toArray();
     }
 }

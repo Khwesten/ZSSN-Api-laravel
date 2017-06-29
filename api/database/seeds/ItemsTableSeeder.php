@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use \App\Http\Controllers\SurvivorController;
 
 class ItemsTableSeeder extends Seeder
 {
@@ -12,10 +13,10 @@ class ItemsTableSeeder extends Seeder
     public function run()
     {
         $items = [
-            ['name' => 'Water', 'points' => 4],
-            ['name' => 'Food', 'points' => 3],
-            ['name' => 'Medication', 'points' => 2],
-            ['name' => 'Ammunition', 'points' => 1]
+            ['name' => SurvivorController::WATER_ITEM_NAME, 'points' => 4],
+            ['name' => SurvivorController::FOOD_ITEM_NAME, 'points' => 3],
+            ['name' => SurvivorController::MEDICATION_ITEM_NAME, 'points' => 2],
+            ['name' => SurvivorController::AMMUNITION_ITEM_NAME, 'points' => 1]
         ];
 
         DB::table('items')->insert($items);

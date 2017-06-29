@@ -10,7 +10,6 @@ use App\Repositories\Survivor\SurvivorEloquentRepository;
 use App\Repositories\SurvivorItem\SurvivorItemEloquentRepository;
 use App\Survivor;
 use App\SurvivorItem;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -53,7 +52,7 @@ class SurvivorController extends Controller
         $this->arrayValidItems = [];
     }
 
-    public function create(Request $request, Location $location, Survivor $survivor, SurvivorItem $survivorItem)
+    public function create(Request $request, Location $location, Survivor $survivor)
     {
         $bodyMessage = $request->input();
 
@@ -142,6 +141,35 @@ class SurvivorController extends Controller
 
     public function report()
     {
+        $countOfAllSurvivors = $this->survivorEloquentRepository->countAllSurvivors();
+        $countOfInfectedSurvivors = $this->survivorEloquentRepository->countInfectedSurvivors();
+
+        $percentageOfInfectedUsers = ($countOfInfectedSurvivors * $countOfAllSurvivors) / 100;
+        $percentageOfNonInfectedUsers = 100 - $percentageOfInfectedUsers;
+
+        $numberOfSurvivors = $countOfAllSurvivors - $countOfInfectedSurvivors;
+
+        $infectedUserPoints = $this->survivorItemEloquentRepository->countPointsFromInfectedSurvivors();
+
+        $quantitiesOfItemsByKind = $this->survivorItemEloquentRepository->getAmountOfItemsByKind();
+
+        $quantitiesOfResourcesTypeByUser = [];
+
+        foreach ($quantitiesOfItemsByKind as $object) {
+            $quantitiesOfResourcesTypeByUser[] = [
+                "name" => $object->name,
+                "quantityPerUser" => round($object->quantity / $numberOfSurvivors, 3)
+            ];
+        }
+
+        $response = [
+            "infectedUsers" => $percentageOfInfectedUsers,
+            "nonInfectedUsers" => $percentageOfNonInfectedUsers,
+            "pointsLostBecauseInfectedUser" => $infectedUserPoints,
+            "averageAmountOfEachKindOfResourceBySurvivor" => $quantitiesOfResourcesTypeByUser
+        ];
+
+        return response($response);
     }
 
     private function makeBasicSurvivorItems(Survivor $survivor)
