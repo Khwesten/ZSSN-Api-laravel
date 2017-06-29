@@ -7,5 +7,7 @@
             "email": "k-heiner@hotmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "php": "^7.0"
+    }
 }

@@ -2,9 +2,7 @@
 
 namespace App;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-
-class Survivor extends Authenticatable
+class Survivor extends ModelInterface
 {
     /**
      * The attributes that are mass assignable.
@@ -12,7 +10,7 @@ class Survivor extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'age', 'gender', 'location', 'survivorItems', 'votesOfInfection', 'isInfected'
+        'name', 'age', 'gender', 'is_infected'
     ];
 
     /**
@@ -20,9 +18,9 @@ class Survivor extends Authenticatable
      *
      * @return Location
      */
-    public function location(): Location
+    public function location()
     {
-        return $this->hasOne('App\Location');
+        return $this->hasOne(Location::class);
     }
 
     /**
@@ -30,9 +28,9 @@ class Survivor extends Authenticatable
      *
      * @return array
      */
-    public function survivorItems(): array
+    public function survivorItems()
     {
-        return $this->hasMany('App\SurvivorItem');
+        return $this->hasMany(SurvivorItem::class);
     }
 
     /**
@@ -42,6 +40,6 @@ class Survivor extends Authenticatable
      */
     public function votesOfInfection(): array
     {
-        return $this->belongsToMany('App\VoteOfInfection');
+        return $this->hasMany(VoteOfInfection::class);
     }
 }

@@ -3,7 +3,9 @@
 namespace App\Repositories\Survivor;
 
 use App\Location;
+use App\ModelInterface;
 use App\Survivor;
+use Illuminate\Foundation\Auth\User;
 
 /**
  * Created by IntelliJ IDEA.
@@ -11,12 +13,30 @@ use App\Survivor;
  * Date: 22/06/2017
  * Time: 17:54
  */
-class SurvivorEloquentRepository implements SurvivorInterface
+class SurvivorEloquentRepository extends AbstractSurvivor
 {
-
-    public function create(array $data)
+    public function create()
     {
-        return Survivor::create($data);
+        $this->model->save();
+
+        return $this->model;
+    }
+
+    public function update()
+    {
+        // TODO: Implement update() method.
+    }
+
+    public function delete(int $id)
+    {
+        // TODO: Implement delete() method.
+    }
+
+    public function find(int $id)
+    {
+        $survivor = Survivor::findOrFail($id);
+
+        return $survivor;
     }
 
     public function report()
@@ -29,19 +49,15 @@ class SurvivorEloquentRepository implements SurvivorInterface
         // TODO: Implement tradeWith() method.
     }
 
-    public function markAsInfected(int $survivorId, int $infectedSurvivorId)
+    public function markAsInfected(int $survivorId)
     {
-        $user = User::find($id);
-        $user->isInfected = true;
+        $result = Survivor::findOrFail($survivorId)->update(['is_infected' => true]);
 
-        return $user->save();
+        return $result;
     }
 
-    public function updateLocation(int $id, Location $location)
+    public function addItens(array $survivorItems)
     {
-        $user = User::find($id);
-        $user->location = $location;
-
-        return $user->save();
+        return $this->model->survivorItems()->saveMany($survivorItems);
     }
 }

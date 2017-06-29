@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * Date: 22/06/2017
  * Time: 16:56
  */
-class SurvivorItem extends Model
+class SurvivorItem extends ModelInterface
 {
     /**
      * The attributes that are mass assignable.
@@ -18,15 +18,22 @@ class SurvivorItem extends Model
      * @var array
      */
     protected $fillable = [
-        'quantity', 'item'
+        'quantity'
     ];
 
     /**
      * Get the item from survivorItem.
-     *
-     * @return Item
      */
-    public function item(): Item {
-        return $this->belongsToMany('App\Item');
+    public function item()
+    {
+        return $this->belongsTo(Item::class);
+    }
+
+    /**
+     * Get the survivor from survivorItem.
+     */
+    public function survivor()
+    {
+        return $this->belongsTo(Survivor::class);
     }
 }

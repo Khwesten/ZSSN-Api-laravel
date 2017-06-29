@@ -19,39 +19,30 @@ class CreateInitialDb extends Migration
             $table->string('name');
             $table->integer('age');
             $table->integer('gender');
-//            $table->integer('location');
-//            $table->integer('survivorItems');
-            $table->boolean('isInfected')->default(false);
-        });
-
-        Schema::create('survivors_items', function (Blueprint $table) {
-            $table->increments('id');
-
-            $table->integer('quantity');
-            $table->integer('item');
-
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
-        });
-
-        Schema::create('item_survivoritem', function (Blueprint $table) {
-            $table->increments('id');
-
-            $table->integer('quantity');
-            $table->integer('item');
-
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
+            $table->boolean('is_infected')->default(false);
+            $table->timestamps();
         });
 
         Schema::create('locations', function (Blueprint $table) {
             $table->increments('id');
 
-            $table->string('latitude');
-            $table->integer('longitude');
+            $table->string('latitude')->default('0');
+            $table->string('longitude')->default('0');
+            $table->timestamps();
 
-            $table->integer('user_id')->unsigned();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');;
+            $table->integer('survivor_id')->unsigned();
+            $table->foreign('survivor_id')->references('id')->on('survivors')->onDelete('cascade');
+        });
+
+        Schema::create('votes_of_infections', function (Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
+
+            $table->integer('survivor_id')->unsigned();
+            $table->foreign('survivor_id')->references('id')->on('survivors')->onDelete('cascade');
+
+            $table->integer('infected_survivor_id')->unsigned();
+            $table->foreign('infected_survivor_id')->references('id')->on('survivors')->onDelete('cascade');
         });
 
         Schema::create('items', function (Blueprint $table) {
@@ -59,11 +50,20 @@ class CreateInitialDb extends Migration
 
             $table->string('name');
             $table->integer('points');
-            $table->integer('gender');
-            $table->integer('location');
-            $table->integer('survivorItems');
+            $table->timestamps();
+        });
 
-            $table->boolean('isInfected')->default(false);
+        Schema::create('item_survivoritem', function (Blueprint $table) {
+            $table->increments('id');
+
+            $table->integer('quantity');
+            $table->timestamps();
+
+            $table->integer('survivor_id')->unsigned();
+            $table->foreign('survivor_id')->references('id')->on('survivors')->onDelete('cascade');
+
+            $table->integer('item_id')->unsigned();
+            $table->foreign('item_id')->references('id')->on('items');
         });
     }
 
@@ -75,5 +75,9 @@ class CreateInitialDb extends Migration
     public function down()
     {
         Schema::drop('survivors');
+        Schema::drop('locations');
+        Schema::drop('votes_of_infection');
+        Schema::drop('item_survivoritem');
+        Schema::drop('items');
     }
 }

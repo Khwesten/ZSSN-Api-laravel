@@ -16,3 +16,5 @@ Route::get('/', function () {
 });
 
 include_once 'survivor.php';
+include_once 'location.php';
+include_once 'infection.php';
