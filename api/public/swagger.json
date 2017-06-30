@@ -1,0 +1,255 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "ZSSN API",
+        "version": "1.0"
+    },
+    "host": "localhost:8000",
+    "basePath": "",
+    "schemes": [
+        "http"
+    ],
+    "paths": {
+        "/location": {
+            "put": {
+                "tags": [
+                    "location"
+                ],
+                "description": "Update location from survivor",
+                "operationId": "location.update",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Location"
+                        },
+                        "type": "object"
+                    },
+                    {
+                        "name": "survivorId",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Location updated successful!"
+                    },
+                    "400": {
+                        "description": "Validation Failed!"
+                    },
+                    "404": {
+                        "description": "Survivor not found!"
+                    },
+                    "422": {
+                        "description": "[errors]"
+                    }
+                }
+            }
+        },
+        "/survivor": {
+            "post": {
+                "tags": [
+                    "survivor"
+                ],
+                "description": "Create a survivor",
+                "operationId": "survivor.create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Survivor"
+                        },
+                        "type": "object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Survivor saved successful!"
+                    },
+                    "400": {
+                        "description": "Validation Failed!"
+                    },
+                    "422": {
+                        "description": "[errors]"
+                    }
+                }
+            }
+        },
+        "/survivor/{survivorId}/trade-items-with/{anotherSurvivorId}": {
+            "post": {
+                "tags": [
+                    "survivor"
+                ],
+                "description": "Create a survivor",
+                "operationId": "survivor.create",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "survivorId",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "anotherSurvivorId",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/Trade"
+                        },
+                        "type": "object"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Trade successful!"
+                    },
+                    "400": {
+                        "description": "Survivor IDs do not match the body of the message!"
+                    }
+                }
+            }
+        },
+        "/survivor/report": {
+            "get": {
+                "tags": [
+                    "survivor"
+                ],
+                "description": "Report from Survivor",
+                "operationId": "survivor.report",
+                "produces": [
+                    "application/json"
+                ],
+                "responses": {
+                    "200": {
+                        "description": ""
+                    }
+                }
+            }
+        },
+        "/infection": {
+            "post": {
+                "tags": [
+                    "infection"
+                ],
+                "description": "Vote to mark another survivor as infected",
+                "operationId": "voteOfInfection.voteOfInfection",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "survivorId",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    },
+                    {
+                        "name": "infectedSurvivorId",
+                        "in": "path",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Vote saved successful!"
+                    },
+                    "404": {
+                        "description": "Survivor not found!"
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "Location": {
+            "required": [
+                "name",
+                "gender",
+                "age",
+                "location"
+            ],
+            "properties": {
+                "latitude": {
+                    "type": "string",
+                    "example": "15.5242316"
+                },
+                "longitude": {
+                    "type": "string",
+                    "example": "-55.6175044"
+                }
+            },
+            "type": "object"
+        },
+        "Survivor": {
+            "required": [
+                "name",
+                "gender",
+                "age",
+                "location"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "example": "Someone"
+                },
+                "gender": {
+                    "type": "string",
+                    "example": "M"
+                },
+                "age": {
+                    "type": "integer",
+                    "example": 20
+                },
+                "location": {
+                    "type": "string",
+                    "example": {
+                        "latitude": 15.5242316,
+                        "longitude": -55.6175044
+                    }
+                }
+            },
+            "type": "object"
+        },
+        "Trade": {
+            "required": [
+                "name",
+                "gender",
+                "age",
+                "location"
+            ],
+            "properties": {
+                "survivorId": {
+                    "type": "string",
+                    "example": "{items: [{id: 1, quantity : 1 }, {}, ...]}"
+                },
+                "anotherSurvivorId": {
+                    "type": "string",
+                    "example": "{items: [{id: 1, quantity : 1 }, {}, ...]}"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

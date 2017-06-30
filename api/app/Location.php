@@ -3,10 +3,13 @@
 namespace App;
 
 /**
- * Created by IntelliJ IDEA.
- * User: k-heiner@hotmail.com
- * Date: 22/06/2017
- * Time: 16:38
+ * @SWG\Definition(
+ *     definition="Location",
+ *     required={"name", "gender", "age", "location"},
+ *     type="object",
+ *     @SWG\Property(type="string", property="latitude", example="15.5242316"),
+ *     @SWG\Property(type="string", property="longitude", example="-55.6175044")
+ * )
  */
 class Location extends ModelInterface
 {

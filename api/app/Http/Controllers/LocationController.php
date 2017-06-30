@@ -7,10 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 /**
- * Created by IntelliJ IDEA.
- * User: k-heiner@hotmail.com
- * Date: 27/06/2017
- * Time: 10:13
+ * Class LocationController
+ *
+ * @package App\Http\Controllers
  */
 class LocationController extends Controller
 {
@@ -25,6 +24,26 @@ class LocationController extends Controller
         $this->locationEloquentRepository = $locationEloquentRepository;
     }
 
+    /**
+     * @SWG\Put(
+     *     path="/location",
+     *     description="Update location from survivor",
+     *     operationId="location.update",
+     *     produces={"application/json"},
+     *     tags={"location"},
+     *
+     *     @SWG\Parameter(name="body", in="body", required=true, type="object", @SWG\Schema(ref="#/definitions/Location")),
+     *     @SWG\Parameter(name="survivorId", in="path", required=true, type="integer"),
+     *
+     *     @SWG\Response(response=200, description="Location updated successful!"),
+     *     @SWG\Response(response=404, description="Survivor not found!"),
+     *     @SWG\Response(response=422, description="Validation failed!"),
+     * )
+     *
+     * @param int $survivorId
+     * @param Request $request
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function updateSurvivorLocation(int $survivorId, Request $request)
     {
         $location = $this->locationEloquentRepository->findBySurvivorId($survivorId);
@@ -40,14 +59,7 @@ class LocationController extends Controller
             'longitude' => 'required'
         ]);
 
-        $errors = $validator->errors()->all();
-
-        if ($errors) {
-            return response([
-                'message' => 'Validation Failed',
-                'errors' => $errors
-            ], 400);
-        }
+        if ($validator->fails()) return $this->makeResponse($validator);
 
         $location->fill($bodyMessage);
 

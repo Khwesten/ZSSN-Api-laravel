@@ -30,9 +30,24 @@ class VoteOfInfectionController extends Controller
     }
 
     /**
+     * @SWG\Post(
+     *     path="/infection",
+     *     description="Vote to mark another survivor as infected",
+     *     operationId="voteOfInfection.voteOfInfection",
+     *     produces={"application/json"},
+     *     tags={"infection"},
+     *
+     *     @SWG\Parameter(name="survivorId", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="infectedSurvivorId", in="path", required=true, type="integer"),
+     *
+     *     @SWG\Response(response=200, description="Vote saved successful!"),
+     *     @SWG\Response(response=404, description="Survivor not found!")
+     * )
+     *
      * @param int $survivorId
      * @param int $infectedSurvivorId
      * @param VoteOfInfection $voteOfInfection
+     *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function voteOfInfection(int $survivorId, int $infectedSurvivorId, VoteOfInfection $voteOfInfection)
@@ -42,6 +57,10 @@ class VoteOfInfectionController extends Controller
         if (!$voteResult) {
             $survivor = $this->survivorEloquentRepository->find($survivorId);
             $infectedSurvivor = $this->survivorEloquentRepository->find($infectedSurvivorId);
+
+            if (!$survivor || !$infectedSurvivor) {
+                return response('Survivor not found!', 404);
+            }
 
             $voteOfInfection->survivor()->associate($survivor);
             $voteOfInfection->infectedSurvivor()->associate($infectedSurvivor);

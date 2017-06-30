@@ -12,12 +12,12 @@ use App\Survivor;
 use App\SurvivorItem;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 /**
- * Created by IntelliJ IDEA.
- * User: k-heiner@hotmail.com
- * Date: 22/06/2017
- * Time: 14:53
+ * Class SurvivorController
+ *
+ * @package App\Http\Controllers
  */
 class SurvivorController extends Controller
 {
@@ -49,33 +49,42 @@ class SurvivorController extends Controller
     }
 
     /**
+     * @SWG\Post(
+     *     path="/survivor",
+     *     description="Create a survivor",
+     *     operationId="survivor.create",
+     *     produces={"application/json"},
+     *     tags={"survivor"},
+     *
+     *     @SWG\Response(response=200, description="Survivor saved successful!"),
+     *     @SWG\Response(response=422, description="Validation failed!"),
+     *
+     *     @SWG\Parameter(
+     *         name="body", in="body", required=true, type="object", @SWG\Schema(ref="#/definitions/Survivor")
+     *     )
+     * )
+     *
      * @param Request $request
      * @param Location $location
      * @param Survivor $survivor
+     *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function create(Request $request, Location $location, Survivor $survivor)
     {
         $bodyMessage = $request->input();
 
-        // TODO try use it
+        // TODO try to use this
 //        $this->validate($request,[
         $validator = Validator::make($bodyMessage, [
             'name' => 'required|max:255',
-            'gender' => 'required|max:1',
-            'age' => 'required',
+            'gender' => [Rule::in(['M', 'F']), 'required', 'max:1'],
+            'age' => 'required|numeric|min:1',
             'location.latitude' => 'required',
             'location.longitude' => 'required'
         ]);
 
-        $errors = $validator->errors()->all();
-
-        if ($errors) {
-            return response([
-                'message' => 'Validation Failed',
-                'errors' => $errors
-            ], 400);
-        }
+        if ($validator->fails()) return $this->makeResponse($validator);
 
         $survivorData = $bodyMessage;
         $locationData = $bodyMessage['location'];
@@ -97,6 +106,24 @@ class SurvivorController extends Controller
     }
 
     /**
+     * @SWG\Post(
+     *     path="/survivor/{survivorId}/trade-items-with/{anotherSurvivorId}",
+     *     description="Create a survivor",
+     *     operationId="survivor.create",
+     *     produces={"application/json"},
+     *     tags={"survivor"},
+     *
+     *     @SWG\Response(response=200, description="Trade successful!"),
+     *     @SWG\Response(response=400, description="The server cannot process the request!"),
+     *     @SWG\Response(response=404, description="Survivor not found!"),
+     *
+     *     @SWG\Parameter(name="survivorId", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(name="anotherSurvivorId", in="path", required=true, type="integer"),
+     *     @SWG\Parameter(
+     *         name="body", in="body", required=true, type="object", @SWG\Schema(ref="#/definitions/Trade")
+     *     )
+     * )
+     *
      * @param int $survivorId
      * @param int $anotherSurvivorId
      * @param Request $request
@@ -118,7 +145,7 @@ class SurvivorController extends Controller
         $anotherSurvivor = $this->survivorEloquentRepository->find($anotherSurvivorId);
 
         if (!$survivor || !$anotherSurvivor) {
-            return response("The survivors doesn't exists!", 400);
+            return response("Survivor not found!", 404);
         }
 
         $itemsToTradeOfSurvivor = $bodyMessage[$survivorId]['items'];
@@ -136,7 +163,7 @@ class SurvivorController extends Controller
         }
 
         if (!$trade->hasAllItemsFromTrade()) {
-            return response("One of survivors don't have all itens to trade!", 400);
+            return response("One of survivors don't have all items to trade!", 400);
         }
 
         if (!$trade->isBalanced()) {
@@ -149,6 +176,15 @@ class SurvivorController extends Controller
     }
 
     /**
+     * @SWG\Get(
+     *     path="/survivor/report",
+     *     description="Report from Survivor",
+     *     operationId="survivor.report",
+     *     produces={"application/json"},
+     *     tags={"survivor"},
+     *     @SWG\Response(response=200, description="")
+     * )
+     *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
     public function report()

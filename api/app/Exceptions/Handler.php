@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
 //            return response()->json(['error'=>$error],400);
 //        }
 //
-//        dd($request, $request->wantsJson(), $request->ajax());
+//        dd($request, $request->wantsJson(), $request->ajax(), $request->expectsJson());
 
         return parent::render($request, $exception);
     }

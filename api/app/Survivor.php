@@ -2,6 +2,17 @@
 
 namespace App;
 
+/**
+ * @SWG\Definition(
+ *     definition="Survivor",
+ *     required={"name", "gender", "age", "location"},
+ *     type="object",
+ *     @SWG\Property(type="string", property="name", example="Someone"),
+ *     @SWG\Property(type="string", property="gender", example="M"),
+ *     @SWG\Property(type="integer", property="age", example=20),
+ *     @SWG\Property(type="string", example={"latitude":15.5242316, "longitude":-55.6175044}, property="location")
+ * )
+ */
 class Survivor extends ModelInterface
 {
     /**
