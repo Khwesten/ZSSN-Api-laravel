@@ -1,5 +1,9 @@
 # ZSSN Api - laravel
 
+## Requirements
+
+- PHP >= 7.0
+
 ## Getting Started
 Enter on api folder
 
