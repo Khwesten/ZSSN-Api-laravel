@@ -22,5 +22,9 @@ Run server:
 Swagger Documentation on:
 
     http://localhost:8000/swagger/
+    
+To see tests coverage:
+
+    "vendor/bin/phpunit"
 
 

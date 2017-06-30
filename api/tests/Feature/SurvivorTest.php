@@ -6,25 +6,70 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
-use Tests\Utils\Utils;
 
 class SurvivorTest extends TestCase
 {
+    use WithoutMiddleware, DatabaseMigrations, DatabaseTransactions;
+
+    protected $baseUrl = 'http://localhost:8000';
+
+    function setUp()
+    {
+        parent::setUp();
+
+        config(['app.url' => 'http://localhost:8000']);
+    }
+
     /**
-     * A basic test example.
-     *
      * @return void
      */
-    public function create()
+    public function test_create_with_empty_name()
     {
         $data = [
             "name" => ""
         ];
 
-        $response = $this->post('/survivor', $data);
+        $response = $this->json('POST', '/survivor', $data);
 
-        var_dump($response);
+        $response->assertStatus(422);
+    }
 
-        $response->assertStatus(200);
+    /**
+     * @return void
+     */
+    public function test_create_with_empty_gender()
+    {
+        $data = [
+            "name" => "Valid name",
+            "gender" => ""
+        ];
+
+        $response = $this->json('POST', '/survivor', $data);
+
+        $response->assertStatus(422);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_create_with_gender_different_of_M_and_F()
+    {
+        $data = [
+            "name" => "Valid name",
+            "gender" => "a"
+        ];
+
+        $response = $this->json('POST', '/survivor', $data);
+
+        $response->assertStatus(422);
+    }
+
+    /**
+     * @return void
+     */
+    public function test_report_status()
+    {
+        $response = $this->get('/survivor/report');
+        $response->assertSuccessful();
     }
 }
