@@ -32,7 +32,7 @@ class LocationEloquentRepository extends AbstractLocation
 
     public function find(int $id)
     {
-        return Location::findOrFail($id);
+        return Location::find($id);
     }
 
     public function findBySurvivorId(int $survivorId)

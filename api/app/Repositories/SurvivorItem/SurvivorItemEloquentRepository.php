@@ -36,7 +36,7 @@ class SurvivorItemEloquentRepository extends AbstractSurvivorItem
 
     public function find(int $id)
     {
-        $survivor = Survivor::findOrFail($id);
+        $survivor = Survivor::find($id);
         return $survivor;
     }
 

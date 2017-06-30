@@ -37,14 +37,14 @@ class SurvivorEloquentRepository extends AbstractSurvivor
 
     public function find(int $id)
     {
-        $survivor = Survivor::findOrFail($id);
+        $survivor = Survivor::find($id);
 
         return $survivor;
     }
 
     public function markAsInfected(int $survivorId)
     {
-        $result = Survivor::findOrFail($survivorId)->update(['is_infected' => true]);
+        $result = Survivor::find($survivorId)->update(['is_infected' => true]);
 
         return $result;
     }

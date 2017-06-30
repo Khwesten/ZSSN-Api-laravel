@@ -65,21 +65,23 @@ class SurvivorController extends Controller
      * )
      *
      * @param Request $request
-     * @param Location $location
-     * @param Survivor $survivor
      *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function create(Request $request, Location $location, Survivor $survivor)
+    public function create(Request $request)
     {
+        $location = resolve(Location::class);
+        $survivor = resolve(Survivor::class);
+
         $bodyMessage = $request->input();
 
         // TODO try to use this
 //        $this->validate($request,[
         $validator = Validator::make($bodyMessage, [
             'name' => 'required|max:255',
-            'gender' => [Rule::in(['M', 'F']), 'required', 'max:1'],
-            'age' => 'required|numeric|min:1',
+            'gender' => [Rule::in(['M', 'F'])],
+            'age' => 'bail|numeric|min:1',
+            'location' => 'required',
             'location.latitude' => 'required',
             'location.longitude' => 'required'
         ]);
@@ -127,11 +129,13 @@ class SurvivorController extends Controller
      * @param int $survivorId
      * @param int $anotherSurvivorId
      * @param Request $request
-     * @param Trade $trade
+     *
      * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
      */
-    public function tradeItems(int $survivorId, int $anotherSurvivorId, Request $request, Trade $trade)
+    public function tradeItems(int $survivorId, int $anotherSurvivorId, Request $request)
     {
+        $trade = resolve(Trade::class);
+
         $bodyMessage = $request->input();
 
         $hasSurvivorIdOnListOfTrade = key_exists($survivorId, $bodyMessage);

@@ -46,12 +46,6 @@ class LocationController extends Controller
      */
     public function updateSurvivorLocation(int $survivorId, Request $request)
     {
-        $location = $this->locationEloquentRepository->findBySurvivorId($survivorId);
-
-        if (!$location) {
-            return response('Survivor not found!', 404);
-        }
-
         $bodyMessage = $request->input();
 
         $validator = Validator::make($bodyMessage, [
@@ -60,6 +54,12 @@ class LocationController extends Controller
         ]);
 
         if ($validator->fails()) return $this->makeResponse($validator);
+
+        $location = $this->locationEloquentRepository->findBySurvivorId($survivorId);
+
+        if (!$location) {
+            return response('Survivor not found!', 404);
+        }
 
         $location->fill($bodyMessage);
 

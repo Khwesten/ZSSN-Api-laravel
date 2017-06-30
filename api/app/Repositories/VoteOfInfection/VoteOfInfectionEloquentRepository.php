@@ -34,7 +34,7 @@ class VoteOfInfectionEloquentRepository extends AbstractVoteOfInfection
 
     public function find(int $id)
     {
-        $survivor = Survivor::findOrFail($id);
+        $survivor = Survivor::find($id);
         return $survivor;
     }
 

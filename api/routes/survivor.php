@@ -1,9 +1,7 @@
 <?php
 
-const SURVIVOR_ROOT_PATH = "/survivor";
+Route::post('/survivor', 'SurvivorController@create');
 
-Route::post(SURVIVOR_ROOT_PATH, 'SurvivorController@create');
+Route::post('/survivor/{survivorId}/trade-items-with/{anotherSurvivorId}', 'SurvivorController@tradeItems');
 
-Route::post(SURVIVOR_ROOT_PATH . '/{survivorId}/trade-items-with/{anotherSurvivorId}', 'SurvivorController@tradeItems');
-
-Route::get(SURVIVOR_ROOT_PATH . '/report', 'SurvivorController@report');
+Route::get('/survivor/report', 'SurvivorController@report');

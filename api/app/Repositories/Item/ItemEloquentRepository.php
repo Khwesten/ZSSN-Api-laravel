@@ -31,7 +31,7 @@ class ItemEloquentRepository extends AbstractItem
 
     public function find(int $id)
     {
-        $survivor = Item::findOrFail($id);
+        $survivor = Item::find($id);
 
         return $survivor;
     }

@@ -15,6 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-include_once 'survivor.php';
-include_once 'location.php';
-include_once 'infection.php';
+require 'survivor.php';
+require 'location.php';
+require 'infection.php';
