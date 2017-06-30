@@ -7,6 +7,8 @@ Enter on api folder
     
 Create the *.env* file, use as example the *.env.example* file and create your database
 
+Remember to install all dependencies from laravel(https://laravel.com/docs/5.4/installation#installation)
+
 Run migrations:
  
     php artisan migrate
@@ -26,5 +28,9 @@ Swagger Documentation on:
 To see tests coverage:
 
     "vendor/bin/phpunit"
+    
+If you have any problems with *cipher*, run
+
+    php artisan key:generate
 
 

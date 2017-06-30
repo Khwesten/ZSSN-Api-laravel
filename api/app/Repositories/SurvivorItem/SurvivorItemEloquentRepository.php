@@ -58,7 +58,9 @@ class SurvivorItemEloquentRepository extends AbstractSurvivorItem
             ->where('survivors.is_infected', true)
             ->first();
 
-        return $result->count;
+        $quantity = $result->count ?? 0;
+
+        return $quantity;
     }
 
     public function getAmountOfItemsByKind(): array

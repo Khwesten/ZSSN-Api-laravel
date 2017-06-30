@@ -18,7 +18,7 @@ class CreateInitialDb extends Migration
 
             $table->string('name');
             $table->integer('age');
-            $table->integer('gender');
+            $table->string('gender', 1);
             $table->boolean('is_infected')->default(false);
             $table->timestamps();
         });
@@ -53,7 +53,7 @@ class CreateInitialDb extends Migration
             $table->timestamps();
         });
 
-        Schema::create('item_survivoritem', function (Blueprint $table) {
+        Schema::create('survivor_items', function (Blueprint $table) {
             $table->increments('id');
 
             $table->integer('quantity');
@@ -77,7 +77,7 @@ class CreateInitialDb extends Migration
         Schema::drop('survivors');
         Schema::drop('locations');
         Schema::drop('votes_of_infection');
-        Schema::drop('item_survivoritem');
+        Schema::drop('survivor_items');
         Schema::drop('items');
     }
 }
