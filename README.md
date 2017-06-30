@@ -9,7 +9,7 @@ Enter on api folder
 
     composer install
     
-Create the *.env* file, use as example the *.env.example* file and create your database
+Create the *.env* file, using as example the *.env.example* file and create your database
 
 Remember to install all dependencies from laravel(https://laravel.com/docs/5.4/installation#installation)
 
@@ -33,7 +33,7 @@ To see tests coverage:
 
     "vendor/bin/phpunit"
     
-If you have any problems with *cipher*, run
+If you have any problems with *cipher*, run:
 
     php artisan key:generate
 
