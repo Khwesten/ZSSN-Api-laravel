@@ -1,17 +1,24 @@
-#ZSSN Api - laravel
+# ZSSN Api - laravel
 
+## Getting Started
 Enter on api folder
 
-run migrations:
+    composer install
+
+Run migrations:
  
     php artisan migrate
 
-run seeds to insert basic items:
+Run seeds to insert basic items:
  
     php artisan db:seed
 
-run server:
+Run server:
  
     php artisan serve
+    
+Swagger Documentation on:
+
+    http://localhost:8000/swagger/
 
 
