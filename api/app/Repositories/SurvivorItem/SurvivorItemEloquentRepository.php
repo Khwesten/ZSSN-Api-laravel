@@ -31,7 +31,7 @@ class SurvivorItemEloquentRepository extends AbstractSurvivorItem
 
     public function delete(int $id)
     {
-        // TODO: Implement delete() method.
+        return SurvivorItem::destroy($id);
     }
 
     public function find(int $id)

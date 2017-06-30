@@ -115,6 +115,7 @@ class Trade
         $collectionSurvivorItem = $survivor->survivorItems()->get();
 
         foreach ($collectionSurvivorItem as $survivorItem) {
+            $this->survivorItemEloquentRepository->setModel($survivorItem);
 
             foreach ($listOfItems as $itemToRemove) {
                 $itemToRemoveId = $itemToRemove['id'];
@@ -122,11 +123,10 @@ class Trade
 
                 if ($survivorItem->item->id == $itemToRemoveId) {
                     if ($survivorItem->quantity == $itemToRemoveQuantity) {
-                        $survivorItem->delete();
+                        $this->survivorItemEloquentRepository->delete($survivorItem->id);
                     } else {
                         $survivorItem->quantity -= $itemToRemoveQuantity;
 
-                        $this->survivorItemEloquentRepository->setModel($survivorItem);
                         $this->survivorItemEloquentRepository->update();
                     }
                 }

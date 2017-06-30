@@ -13,5 +13,6 @@ use App\Repositories\AbstractRepository;
 abstract class AbstractVoteOfInfection extends AbstractRepository
 {
     public abstract function findBySurvivors(int $survivorId, int $infectedSurvivorId);
+
     public abstract function votesOfInfectedUser(int $infectedSurvivorId);
 }

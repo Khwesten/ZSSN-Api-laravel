@@ -10,4 +10,6 @@ use App\Repositories\AbstractRepository;
  * Date: 22/06/2017
  * Time: 17:58
  */
-abstract class AbstractLocation extends AbstractRepository {}
+abstract class AbstractLocation extends AbstractRepository {
+    public abstract function findBySurvivorId(int $survivorId);
+}

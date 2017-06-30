@@ -27,7 +27,7 @@ class LocationEloquentRepository extends AbstractLocation
 
     public function delete(int $id)
     {
-        // TODO: Implement delete() method.
+        return Location::destroy($id);
     }
 
     public function find(int $id)

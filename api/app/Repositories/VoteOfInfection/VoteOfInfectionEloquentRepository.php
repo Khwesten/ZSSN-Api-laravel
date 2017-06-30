@@ -22,12 +22,14 @@ class VoteOfInfectionEloquentRepository extends AbstractVoteOfInfection
 
     public function update()
     {
-        // TODO: Implement update() method.
+        $this->model->save();
+
+        return $this->model;
     }
 
     public function delete(int $id)
     {
-        // TODO: Implement delete() method.
+        VoteOfInfection::destroy($id);
     }
 
     public function find(int $id)

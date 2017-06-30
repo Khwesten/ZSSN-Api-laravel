@@ -163,10 +163,10 @@ class SurvivorController extends Controller
         }
 
         $response = [
-            "infectedUsers" => $percentageOfInfectedUsers,
-            "nonInfectedUsers" => $percentageOfNonInfectedUsers,
-            "pointsLostBecauseInfectedUser" => $infectedUserPoints,
-            "averageAmountOfEachKindOfResourceBySurvivor" => $quantitiesOfResourcesTypeByUser
+            "infectedSurvivors" => $percentageOfInfectedUsers,
+            "nonInfectedSurvivors" => $percentageOfNonInfectedUsers,
+            "pointsLost" => $infectedUserPoints,
+            "resourceBySurvivor" => $quantitiesOfResourcesTypeByUser
         ];
 
         return response($response);

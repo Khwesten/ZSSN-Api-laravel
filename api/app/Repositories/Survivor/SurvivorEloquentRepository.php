@@ -25,12 +25,14 @@ class SurvivorEloquentRepository extends AbstractSurvivor
 
     public function update()
     {
-        // TODO: Implement update() method.
+        $this->model->save();
+
+        return $this->model;
     }
 
     public function delete(int $id)
     {
-        // TODO: Implement delete() method.
+        return Survivor::destroy($id);
     }
 
     public function find(int $id)
