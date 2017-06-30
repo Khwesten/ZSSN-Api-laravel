@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @SWG\Definition(
  *     definition="Trade",
