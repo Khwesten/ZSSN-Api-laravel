@@ -4,6 +4,8 @@
 Enter on api folder
 
     composer install
+    
+Create the *.env* file, use as example the *.env.example file* and create your database
 
 Run migrations:
  
