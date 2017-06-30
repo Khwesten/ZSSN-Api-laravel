@@ -27,8 +27,6 @@ class SurvivorController extends Controller
     const MEDICATION_ITEM_NAME = 'Medication';
     const AMMUNITION_ITEM_NAME = 'Ammunition';
 
-    private $arrayValidItems;
-
     /**
      * SurvivorController constructor.
      *
@@ -48,10 +46,14 @@ class SurvivorController extends Controller
         $this->locationEloquentRepository = $locationEloquentRepository;
         $this->itemEloquentRepository = $itemEloquentRepository;
         $this->survivorItemEloquentRepository = $survivorItemEloquentRepository;
-
-        $this->arrayValidItems = [];
     }
 
+    /**
+     * @param Request $request
+     * @param Location $location
+     * @param Survivor $survivor
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function create(Request $request, Location $location, Survivor $survivor)
     {
         $bodyMessage = $request->input();
@@ -94,6 +96,13 @@ class SurvivorController extends Controller
         return response('Survivor saved successful!');
     }
 
+    /**
+     * @param int $survivorId
+     * @param int $anotherSurvivorId
+     * @param Request $request
+     * @param Trade $trade
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function tradeItems(int $survivorId, int $anotherSurvivorId, Request $request, Trade $trade)
     {
         $bodyMessage = $request->input();
@@ -139,6 +148,9 @@ class SurvivorController extends Controller
         return response("Trade successful!");
     }
 
+    /**
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function report()
     {
         $countOfAllSurvivors = $this->survivorEloquentRepository->countAllSurvivors();

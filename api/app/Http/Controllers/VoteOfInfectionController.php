@@ -29,6 +29,12 @@ class VoteOfInfectionController extends Controller
         $this->voteOfInfectionEloquentRepository = $voteOfInfectionEloquentRepository;
     }
 
+    /**
+     * @param int $survivorId
+     * @param int $infectedSurvivorId
+     * @param VoteOfInfection $voteOfInfection
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Symfony\Component\HttpFoundation\Response
+     */
     public function voteOfInfection(int $survivorId, int $infectedSurvivorId, VoteOfInfection $voteOfInfection)
     {
         $voteResult = $this->voteOfInfectionEloquentRepository->findBySurvivors($survivorId, $infectedSurvivorId);
