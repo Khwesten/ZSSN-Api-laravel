@@ -232,30 +232,6 @@ class SurvivorTest extends TestCase
     }
 
     /**
-     * test_tradeItems_with_qtt_item_0
-     */
-    public function test_tradeItems_with_qtt_item_0()
-    {
-        $survivor = factory(Survivor::class)->create();
-        $anotherSurvivor = factory(Survivor::class)->create();
-
-        $trade = $this->trade;
-
-        $trade[$survivor->id] = $trade[1];
-        unset($trade[1]);
-
-        $trade[$anotherSurvivor->id] = $trade[2];
-        unset($trade[2]);
-
-        $trade[1]["items"] = [["id" => 1, "quantity" => 0]];
-
-        $response = $this->json('POST', "/survivor/{$survivor->id}/trade-items-with/{$anotherSurvivor->id}", $trade);
-
-        $response->assertStatus(400);
-        $response->assertSeeText("One of survivors don't have all items to trade!");
-    }
-
-    /**
      * test_report_status
      */
     public function test_report_status()
